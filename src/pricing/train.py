@@ -247,9 +247,9 @@ def main() -> None:
         out[f"premium_{m}"] = out[f"pp_{m}"] * out["exposure"]
     out.to_parquet(processed / "policy_predictions.parquet", index=False)
 
-    report["runtime_seconds"] = round(time.time() - t0, 1)
     (results / "metrics.json").write_text(json.dumps(report, indent=2, default=float))
     print(json.dumps(report, indent=2, default=float))
+    print(f"done in {time.time() - t0:.1f}s")
 
 
 def explain_gbm(model, X_test: pd.DataFrame, results: Path) -> dict:
