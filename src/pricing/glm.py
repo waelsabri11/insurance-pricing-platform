@@ -80,20 +80,6 @@ def predict(tariff: dict, factors: pd.DataFrame) -> np.ndarray:
     return np.exp(eta)
 
 
-def relativities(tariff: dict, factors_one: dict) -> tuple[float, dict[str, float]]:
-    """Base value and the multiplicative relativity of each factor for one profile."""
-    rel = {}
-    for name, f in tariff["factors"].items():
-        x = factors_one[name]
-        if f["type"] == "continuous":
-            rel[name] = math.exp(f["coef"] * (x - f["center"]))
-        else:
-            if x not in f["levels"]:
-                raise KeyError(f"unknown level {x!r} for {name}")
-            rel[name] = math.exp(f["levels"][x]["coef"])
-    return math.exp(tariff["intercept"]), rel
-
-
 def relativity_table(tariff: dict, model: str) -> pd.DataFrame:
     rows = []
     for name, f in tariff["factors"].items():

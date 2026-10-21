@@ -37,6 +37,7 @@ module-name = "pricing"
 [dependency-groups]
 dev = [
     "httpx>=0.28.1",
+    "httpx2>=2.16.0",
     "pytest>=9.1.1",
     "ruff>=0.17.1",
 ]
@@ -45,4 +46,7 @@ dev = [
 testpaths = ["tests"]
 
 [tool.ruff]
-line-length = 110
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]

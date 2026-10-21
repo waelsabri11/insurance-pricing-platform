@@ -131,7 +131,8 @@ def main() -> None:
     # early-stopped GBMs do not). For the GLM the factor is folded into the intercept.
     balance = {}
     for m in ("glm", "gbm"):
-        balance[f"freq_{m}"] = df.loc[train, "n_claims"].sum() / (df.loc[train, f"freq_{m}"] * df.loc[train, "exposure"]).sum()
+        balance[f"freq_{m}"] = df.loc[train, "n_claims"].sum() / (
+            df.loc[train, f"freq_{m}"] * df.loc[train, "exposure"]).sum()
         balance[f"sev_{m}"] = df.loc[sev_train, "incurred_capped"].sum() / (
             df.loc[sev_train, f"sev_{m}"] * df.loc[sev_train, "claim_count"]).sum()
         df[f"freq_{m}"] *= balance[f"freq_{m}"]
@@ -164,7 +165,8 @@ def main() -> None:
         "data": {"policies": int(len(df)), "train_policies": int(train.sum()), "test_policies": int(len(te)),
                  "claims": int(df["claim_count"].sum()), "exposure_years": round(float(df["exposure"].sum()), 1),
                  "sample_frac": sample_frac},
-        "large_loss": {"cap_eur": round(cap, 2), "quantile": LARGE_LOSS_QUANTILE, "load_factor": round(large_loss_load, 4)},
+        "large_loss": {"cap_eur": round(cap, 2), "quantile": LARGE_LOSS_QUANTILE,
+                       "load_factor": round(large_loss_load, 4)},
         "frequency_poisson_deviance": {
             "null": metrics.poisson_deviance(te["n_claims"].to_numpy(), exp_te, np.full(len(te), flat_freq)),
             "glm": metrics.poisson_deviance(te["n_claims"].to_numpy(), exp_te, te["freq_glm"].to_numpy()),

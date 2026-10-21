@@ -4,30 +4,14 @@ The GLM uses the classic freMTPL2 case-study preparation (Noll, Salzmann & Wuthr
 banded driver and vehicle age, vehicle power capped at 9, bonus-malus capped at 150 and
 log population density. The Area code is left out of the models: it is a banding of the
 same density, and using both makes the two coefficients unstable. Keeping these rules in one
-module means the API prices a quote with exactly the transformations the model was fitted on.
+module (and pricing.rating for single quotes) means the API prices a quote with exactly
+the transformations the model was fitted on.
 """
-
-import math
 
 import numpy as np
 import pandas as pd
 
-DRIVER_AGE_BANDS = [(18, 20, "18-20"), (21, 25, "21-25"), (26, 30, "26-30"), (31, 40, "31-40"),
-                    (41, 50, "41-50"), (51, 70, "51-70"), (71, 200, "71+")]
-FUEL_TYPES = ["Diesel", "Regular"]
-BONUS_MALUS_CAP = 150
-VEHICLE_POWER_CAP = 9
-
-
-def driver_age_band(age: int) -> str:
-    for low, high, label in DRIVER_AGE_BANDS:
-        if low <= age <= high:
-            return label
-    raise ValueError(f"driver age {age} out of range")
-
-
-def vehicle_age_band(age: int) -> str:
-    return "0" if age < 1 else ("1-10" if age <= 10 else "11+")
+from pricing.rating import BONUS_MALUS_CAP, VEHICLE_POWER_CAP, driver_age_band, vehicle_age_band
 
 
 def glm_factors(df: pd.DataFrame) -> pd.DataFrame:
@@ -42,20 +26,6 @@ def glm_factors(df: pd.DataFrame) -> pd.DataFrame:
         "vehicle_brand": df["vehicle_brand"].astype(str),
         "region_name": df["region_name"].astype(str),
     }, index=df.index)
-
-
-def glm_factors_one(profile: dict) -> dict:
-    """Same transformation for a single quote (no pandas needed in the API)."""
-    return {
-        "driver_age_band": driver_age_band(profile["driver_age"]),
-        "vehicle_age_band": vehicle_age_band(profile["vehicle_age"]),
-        "vehicle_power": str(min(profile["vehicle_power"], VEHICLE_POWER_CAP)),
-        "bonus_malus": float(min(profile["bonus_malus"], BONUS_MALUS_CAP)),
-        "log_density": math.log(profile["population_density"]),
-        "fuel_type": profile["fuel_type"],
-        "vehicle_brand": profile["vehicle_brand"],
-        "region_name": profile["region_name"],
-    }
 
 
 # GBM: raw numeric features (trees find their own cut points) + one-hot categoricals.
