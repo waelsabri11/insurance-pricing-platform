@@ -1,0 +1,9 @@
+,mean_abs_shap
+bonus_malus,0.4097
+driver_age,0.1581
+log_density,0.1208
+vehicle_age,0.0954
+fuel_type,0.0875
+vehicle_brand,0.0675
+region_name,0.0554
+vehicle_power,0.0411

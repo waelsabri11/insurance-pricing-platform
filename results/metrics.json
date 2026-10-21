@@ -1,0 +1,105 @@
+{
+  "data": {
+    "policies": 677991,
+    "train_policies": 542362,
+    "test_policies": 135629,
+    "claims": 26444,
+    "exposure_years": 358343.5,
+    "sample_frac": 1.0
+  },
+  "large_loss": {
+    "cap_eur": 34986.46,
+    "quantile": 0.995,
+    "load_factor": 1.3086
+  },
+  "frequency_poisson_deviance": {
+    "null": 0.4717963889345323,
+    "glm": 0.4513903877018845,
+    "gbm": 0.44548862971003766
+  },
+  "severity_gamma_deviance": {
+    "null": 1.1402352465291494,
+    "glm": 1.1380644383971126,
+    "gbm": 1.1412083907529877
+  },
+  "frequency_gini": {
+    "glm": 0.2852663505140579,
+    "gbm": 0.3118376322824168
+  },
+  "pure_premium_gini": {
+    "glm": 0.36743160557822097,
+    "gbm": 0.3784027477910674
+  },
+  "pure_premium_gini_ci95": {
+    "glm": [
+      0.1994,
+      0.5482
+    ],
+    "gbm": [
+      0.2286,
+      0.5557
+    ],
+    "gbm_minus_glm": [
+      -0.0549,
+      0.075
+    ]
+  },
+  "capped_pure_premium_gini": {
+    "glm": 0.3085765618648778,
+    "gbm": 0.33751504236421015
+  },
+  "capped_pure_premium_gini_ci95": {
+    "glm": [
+      0.2699,
+      0.349
+    ],
+    "gbm": [
+      0.3019,
+      0.3808
+    ],
+    "gbm_minus_glm": [
+      0.0042,
+      0.0536
+    ]
+  },
+  "test_predicted_over_actual": {
+    "flat": 0.9350970940510102,
+    "glm": 0.9346249606262161,
+    "gbm": 0.9330862467181448
+  },
+  "balance_factors": {
+    "freq_glm": 1.0,
+    "sev_glm": 0.9998,
+    "freq_gbm": 1.0005,
+    "sev_gbm": 1.0461
+  },
+  "gbm_iterations": {
+    "frequency": 187,
+    "severity": 58
+  },
+  "glm_parameters": {
+    "frequency": 48,
+    "severity": 33
+  },
+  "severity_glm_factors": [
+    "driver_age_band",
+    "vehicle_power",
+    "region_name"
+  ],
+  "frequency_deviance_explained": {
+    "glm": 0.04325171135525452,
+    "gbm": 0.055760832090949175
+  },
+  "gbm_frequency_mean_abs_shap": {
+    "max_additivity_gap": 7.993605777301127e-15,
+    "bonus_malus": 0.4097,
+    "driver_age": 0.1581,
+    "log_density": 0.1208,
+    "vehicle_age": 0.0954,
+    "fuel_type": 0.0875,
+    "vehicle_brand": 0.0675,
+    "region_name": 0.0554,
+    "vehicle_power": 0.0411
+  },
+  "runtime_seconds": 23.4
+}
