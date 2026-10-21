@@ -1,0 +1,47 @@
+version: 2
+
+sources:
+  - name: raw
+    description: >
+      freMTPL2 (French motor third-party liability, CASdatasets / OpenML 41214-41215),
+      landed as parquet by scripts/download_data.py. On DuckDB the tables are read in place
+      from parquet (external_location); on Snowflake they are expected in RAW.* after a
+      COPY INTO from a stage (see warehouse/snowflake_setup.sql).
+    database: "{{ 'MOTOR_PRICING' if target.type == 'snowflake' else target.database }}"
+    schema: "{{ 'RAW' if target.type == 'snowflake' else 'main' }}"
+    meta:
+      external_location: "read_parquet('{{ env_var('RAW_DATA_DIR', '../data/raw') }}/{name}.parquet')"
+    tables:
+      - name: freMTPL2freq
+        identifier: "{{ 'FREMTPL2FREQ' if target.type == 'snowflake' else 'freMTPL2freq' }}"
+        description: One row per policy-year (policy characteristics, exposure, claim count).
+        data_tests:
+          - row_count_between:
+              arguments: {min_rows: 670000, max_rows: 690000}
+        columns:
+          - name: IDpol
+            data_tests: [unique, not_null]
+      - name: freMTPL2sev
+        identifier: "{{ 'FREMTPL2SEV' if target.type == 'snowflake' else 'freMTPL2sev' }}"
+        description: One row per claim with its amount (EUR), keyed by IDpol.
+        data_tests:
+          - row_count_between:
+              arguments: {min_rows: 26000, max_rows: 27000}
+        columns:
+          - name: IDpol
+            data_tests: [not_null]
+
+  - name: model_outputs
+    config:
+      tags: [post_model]
+    description: Policy-level predictions written back by the pricing training step (src/pricing/train.py).
+    database: "{{ 'MOTOR_PRICING' if target.type == 'snowflake' else target.database }}"
+    schema: "{{ 'MODEL_OUTPUTS' if target.type == 'snowflake' else 'main' }}"
+    meta:
+      external_location: "read_parquet('{{ env_var('PROCESSED_DATA_DIR', '../data/processed') }}/{name}.parquet')"
+    tables:
+      - name: policy_predictions
+        identifier: "{{ 'POLICY_PREDICTIONS' if target.type == 'snowflake' else 'policy_predictions' }}"
+        columns:
+          - name: policy_id
+            data_tests: [unique, not_null]

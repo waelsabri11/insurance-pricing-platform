@@ -1,0 +1,59 @@
+version: 2
+
+models:
+  - name: stg_policies
+    description: Policy-year records from freMTPL2freq, renamed and typed.
+    columns:
+      - name: policy_id
+        data_tests: [unique, not_null]
+      - name: claim_count
+        data_tests:
+          - accepted_range:
+              arguments: {min_value: 0, max_value: 16}
+      - name: exposure_years
+        description: Fraction of the year the policy was in force (a few records exceed 1 in the raw data).
+        data_tests:
+          - accepted_range:
+              arguments: {min_value: 0.0, max_value: 2.1}
+          - not_null
+      - name: driver_age
+        data_tests:
+          - accepted_range:
+              arguments: {min_value: 18, max_value: 100}
+      - name: vehicle_age
+        data_tests:
+          - accepted_range:
+              arguments: {min_value: 0, max_value: 100}
+      - name: bonus_malus
+        description: French bonus-malus coefficient x100 (50 = maximum bonus, 100 = entry level, >100 = malus).
+        data_tests:
+          - accepted_range:
+              arguments: {min_value: 50, max_value: 350}
+      - name: fuel_type
+        data_tests:
+          - accepted_values:
+              arguments: {values: ['Regular', 'Diesel']}
+      - name: area_code
+        data_tests:
+          - accepted_values:
+              arguments: {values: ['A', 'B', 'C', 'D', 'E', 'F']}
+      - name: region_name
+        data_tests:
+          - not_null
+          - relationships:
+              arguments: {to: ref('region_mapping'), field: region_name}
+
+  - name: stg_claims
+    description: Individual claims from freMTPL2sev (amounts in EUR).
+    columns:
+      - name: claim_id
+        data_tests: [unique, not_null]
+      - name: policy_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments: {to: ref('stg_policies'), field: policy_id}
+      - name: claim_amount
+        data_tests:
+          - accepted_range:
+              arguments: {min_value: 0}

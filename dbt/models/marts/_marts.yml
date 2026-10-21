@@ -1,0 +1,56 @@
+version: 2
+
+models:
+  - name: fct_policies
+    description: One row per policy-year; the modelling base for the pricing models.
+    data_tests:
+      - row_count_between:
+          arguments: {min_rows: 670000, max_rows: 690000}
+    columns:
+      - name: policy_id
+        data_tests: [unique, not_null]
+      - name: exposure_years
+        data_tests:
+          - accepted_range:
+              arguments: {min_value: 0.0, max_value: 2.1}
+      - name: driver_age_band
+        data_tests:
+          - accepted_values:
+              arguments: {values: ['18-20', '21-25', '26-30', '31-40', '41-50', '51-70', '71+']}
+      - name: bonus_malus_band
+        data_tests: [not_null]
+
+  - name: fct_claims
+    description: One row per claim with the rating attributes of its policy.
+    columns:
+      - name: claim_id
+        data_tests: [unique, not_null]
+      - name: policy_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments: {to: ref('fct_policies'), field: policy_id}
+
+  - name: mart_segment_kpis
+    description: Claim frequency, severity and pure premium by rating segment (long format).
+    data_tests:
+      - unique_combination:
+          arguments: {columns: ['dimension', 'segment']}
+    columns:
+      - name: claim_frequency
+        description: Claims per policy-year of exposure.
+        data_tests:
+          - accepted_range:
+              arguments: {min_value: 0, max_value: 2}
+      - name: exposure_share
+        data_tests:
+          - accepted_range:
+              arguments: {min_value: 0, max_value: 1}
+
+  - name: mart_loss_ratio_by_segment
+    description: Test-set loss ratios by segment under flat, GLM and GBM technical premiums.
+    columns:
+      - name: loss_ratio_glm
+        data_tests:
+          - accepted_range:
+              arguments: {min_value: 0, max_value: 10}

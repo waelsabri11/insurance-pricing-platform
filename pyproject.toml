@@ -1,0 +1,48 @@
+[project]
+name = "insurance-pricing-platform"
+version = "0.1.0"
+description = "Motor TPL data platform (dbt + DuckDB/Snowflake) with GLM and GBM pricing models and a quote API"
+authors = [
+    { name = "Wael Sabri", email = "waelsabri4@outlook.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "dbt-core>=1.12.6",
+    "dbt-duckdb>=1.11.0",
+    "duckdb>=2.0.0",
+    "fastapi>=0.157.0",
+    "matplotlib>=3.11.2",
+    "pandas>=3.0.6",
+    "pyarrow>=26.0.0",
+    "pydantic>=2.14.1",
+    "rdata>=1.1.0",
+    "scikit-learn>=1.9.1",
+    "shap>=0.54.1",
+    "statsmodels>=0.15.0",
+    "uvicorn>=0.54.0",
+]
+
+[project.optional-dependencies]
+snowflake = [
+    "dbt-snowflake>=1.12.3",
+]
+
+[build-system]
+requires = ["uv_build>=0.13.1,<0.14.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "pricing"
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "pytest>=9.1.1",
+    "ruff>=0.17.1",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 110

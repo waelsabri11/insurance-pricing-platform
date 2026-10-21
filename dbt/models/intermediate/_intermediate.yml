@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: int_policy_claims
+    description: Claim count and incurred amount per policy.
+    columns:
+      - name: policy_id
+        data_tests: [unique, not_null]
+
+  - name: int_policies_enriched
+    description: One row per policy with claims, region reference and rating bands.
+    columns:
+      - name: policy_id
+        data_tests: [unique, not_null]
+      - name: region_2016
+        data_tests: [not_null]
+      - name: incurred_amount
+        data_tests:
+          - accepted_range:
+              arguments: {min_value: 0}
