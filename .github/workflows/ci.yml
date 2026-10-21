@@ -1,0 +1,30 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - run: uv sync --frozen
+      - run: make lint
+      - name: Download freMTPL2
+        run: make data
+      - name: dbt build (DuckDB) - models and tests
+        run: make dbt-build
+      - name: Train pricing models
+        run: make train
+      - name: dbt build on model outputs
+        run: make dbt-post
+      - name: pytest
+        run: make test
+      - name: dbt docs
+        run: make docs
