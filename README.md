@@ -269,7 +269,7 @@ flowchart LR
 | `src/pricing/demand.py`, `optimize.py`, `offer.py` | Simulated demand model, segment price optimization (SciPy), and the pure-Python offer computation used by the API. |
 | `frontend/` | Vite + React + TypeScript quote app, served by nginx in the `web` image. |
 | `compose.yaml` | `api` (FastAPI) and `web` (nginx + static app) on localhost:8080. |
-| `dags/motor_pricing_dag.py` | `data → dbt_build → train → dbt_post → [docs, test]`, each task calls the matching `make` target. |
+| `dags/motor_pricing_dag.py` | `data → dbt_build → train → optimize → dbt_post → [docs, test]`, each task calls the matching `make` target. |
 | `.github/workflows/ci.yml` | Three jobs. `build`: lint, download, dbt build and tests on DuckDB, training, price optimization, post-model dbt, pytest, dbt docs. `frontend`: `npm ci`, ESLint, tsc, Vitest, build. `docker`: `docker compose config`, build both images, start the stack, smoke test `/health` and one `/quote`. |
 
 ### Modelling choices
@@ -401,7 +401,7 @@ DBT_TARGET=snowflake make dbt-build
 |---|---|
 | `make pipeline` from a clean state | Passes locally in about 40 s: 50 dbt tests, 21 pytest tests (before the price optimization layer) |
 | Full pipeline in a clean `python:3.12` container from a `git archive` of the commit | Passes (download, dbt build with 50 tests, train, `make optimize`, post-model dbt, docs, ruff, 33 pytest tests). Outputs match the committed results to 1e-11 relative |
-| `airflow dags test motor_pricing` | All 6 tasks succeeded in an earlier run (Airflow 3.3.2, separate venv). Not re-run since `optimize` was added to the Makefile; the DAG itself does not call it yet |
+| `airflow dags test motor_pricing` | All 7 tasks succeed, including `optimize` (Airflow 3.3.2, separate venv, run time about 8 min, DagRun state=success) |
 | API rating vs training predictions | Equal to 1e-9 on 500 real policies (`tests/test_pipeline_consistency.py`) |
 | `dbt parse` against the Snowflake target | Passes |
 | Frontend: `npm ci`, ESLint, `tsc`, Vitest (16 tests), `vite build` | Pass in a clean Node 22 container from a `git archive` of the commit |

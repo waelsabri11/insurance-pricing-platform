@@ -25,13 +25,13 @@ def make(target: str) -> BashOperator:
 
 with DAG(
     dag_id="motor_pricing",
-    description="freMTPL2 -> dbt marts -> GLM/GBM pricing -> loss-ratio mart -> docs",
+    description="freMTPL2 -> dbt marts -> GLM/GBM pricing -> price optimization -> loss-ratio mart -> docs",
     start_date=datetime(2026, 1, 1),
     schedule="@monthly",
     catchup=False,
     max_active_runs=1,
     tags=["pricing", "dbt"],
 ) as dag:
-    data, dbt_build, train, dbt_post, docs, test = (
-        make(t) for t in ("data", "dbt-build", "train", "dbt-post", "docs", "test"))
-    data >> dbt_build >> train >> dbt_post >> [docs, test]
+    data, dbt_build, train, optimize, dbt_post, docs, test = (
+        make(t) for t in ("data", "dbt-build", "train", "optimize", "dbt-post", "docs", "test"))
+    data >> dbt_build >> train >> optimize >> dbt_post >> [docs, test]
