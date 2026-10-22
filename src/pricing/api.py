@@ -12,9 +12,11 @@ from typing import Literal
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
 
+from pricing.offer import offer
 from pricing.rating import quote
 
 DEFAULT_TARIFF = Path(__file__).resolve().parents[2] / "models" / "tariff.json"
+DEFAULT_OPTIMIZATION = Path(__file__).resolve().parents[2] / "models" / "price_optimization.json"
 
 Region = Literal[
     "Alsace", "Aquitaine", "Auvergne", "Basse-Normandie", "Bourgogne", "Bretagne", "Centre",
@@ -49,6 +51,38 @@ class FactorLine(BaseModel):
     combined_relativity: float
 
 
+class CurvePoint(BaseModel):
+    multiplier: float
+    price: float
+    conversion: float
+    expected_profit: float
+
+
+class DemandScenario(BaseModel):
+    label: str
+    price_sensitivity: float
+    base_conversion: float
+    points: list[CurvePoint]
+
+
+class Offer(BaseModel):
+    """Optimized offer. SIMULATED: conversion and profit come from an assumed demand model."""
+
+    simulated: bool
+    disclaimer: str
+    segment: str
+    technical_premium: float = Field(description="Break-even gross price (claims + fixed cost + expense ratio)")
+    annual_technical_premium: float
+    multiplier: float = Field(description="Optimized segment multiplier on the technical premium")
+    price: float
+    annual_price: float
+    market_price_proxy: float
+    expected_conversion: float
+    expected_profit_per_quote: float
+    baseline_flat_loading_price: float
+    sensitivity: list[DemandScenario]
+
+
 class QuoteResponse(BaseModel):
     pure_premium: float = Field(description="Expected claim cost (EUR) for the requested exposure")
     annual_pure_premium: float
@@ -58,11 +92,17 @@ class QuoteResponse(BaseModel):
     large_loss_load: float
     breakdown: list[FactorLine]
     model: str = "GLM frequency (Poisson) x severity (Gamma)"
+    offer: Offer
 
 
 @lru_cache(maxsize=1)
 def load_tariff() -> dict:
     return json.loads(Path(os.environ.get("TARIFF_PATH", DEFAULT_TARIFF)).read_text())
+
+
+@lru_cache(maxsize=1)
+def load_optimization() -> dict:
+    return json.loads(Path(os.environ.get("OPTIMIZATION_PATH", DEFAULT_OPTIMIZATION)).read_text())
 
 
 app = FastAPI(title="Motor TPL quote API", version="1.0.0")
@@ -76,4 +116,6 @@ def health() -> dict:
 @app.post("/quote", response_model=QuoteResponse)
 def post_quote(req: QuoteRequest) -> QuoteResponse:
     profile = req.model_dump(exclude={"exposure"})
-    return QuoteResponse(**quote(load_tariff(), profile, req.exposure))
+    result = quote(load_tariff(), profile, req.exposure)
+    result["offer"] = offer(load_optimization(), profile, result["annual_pure_premium"], req.exposure)
+    return QuoteResponse(**result)

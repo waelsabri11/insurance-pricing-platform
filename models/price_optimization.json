@@ -1,0 +1,380 @@
+{
+ "SIMULATED": "Demand is an assumption, not estimated from freMTPL2 (no quotes or conversions in the data). Conversion, volume and profit below are simulated.",
+ "assumptions": {
+  "expense_ratio": 0.25,
+  "fixed_cost_eur": 20.0,
+  "flat_loading": 0.1,
+  "multiplier_min": 0.8,
+  "multiplier_max": 1.3,
+  "senior_multiplier_max": 1.1,
+  "min_volume_vs_baseline": 0.9,
+  "max_loss_ratio": 0.7,
+  "market_offset": 0.05,
+  "market_blend_flat": 0.5
+ },
+ "demand_params": {
+  "base_conversion": 0.15,
+  "price_sensitivity": 4.0
+ },
+ "flat_pure_premium": 164.89455102193241,
+ "sensitivity_scenarios": [
+  {
+   "label": "sensitivity 2",
+   "base_conversion": 0.15,
+   "price_sensitivity": 2.0
+  },
+  {
+   "label": "sensitivity 4",
+   "base_conversion": 0.15,
+   "price_sensitivity": 4.0
+  },
+  {
+   "label": "sensitivity 6",
+   "base_conversion": 0.15,
+   "price_sensitivity": 6.0
+  }
+ ],
+ "segment_factors": [
+  "driver_age_band",
+  "bonus_malus_band",
+  "density_band"
+ ],
+ "segments": {
+  "18-20|50|<200": {
+   "multiplier": 1.1577,
+   "n_policies": 163
+  },
+  "18-20|50|200-2000": {
+   "multiplier": 1.1761,
+   "n_policies": 111
+  },
+  "18-20|50|>2000": {
+   "multiplier": 1.1926,
+   "n_policies": 46
+  },
+  "18-20|51-75|<200": {
+   "multiplier": 1.1934,
+   "n_policies": 39
+  },
+  "18-20|51-75|200-2000": {
+   "multiplier": 1.2077,
+   "n_policies": 20
+  },
+  "18-20|51-75|>2000": {
+   "multiplier": 1.2211,
+   "n_policies": 19
+  },
+  "18-20|76-100|<200": {
+   "multiplier": 1.2671,
+   "n_policies": 2453
+  },
+  "18-20|76-100|200-2000": {
+   "multiplier": 1.2815,
+   "n_policies": 2494
+  },
+  "18-20|76-100|>2000": {
+   "multiplier": 1.2901,
+   "n_policies": 1019
+  },
+  "18-20|101+|<200": {
+   "multiplier": 1.3,
+   "n_policies": 197
+  },
+  "18-20|101+|200-2000": {
+   "multiplier": 1.3,
+   "n_policies": 195
+  },
+  "18-20|101+|>2000": {
+   "multiplier": 1.3,
+   "n_policies": 60
+  },
+  "21-25|50|<200": {
+   "multiplier": 1.1327,
+   "n_policies": 318
+  },
+  "21-25|50|200-2000": {
+   "multiplier": 1.1303,
+   "n_policies": 307
+  },
+  "21-25|50|>2000": {
+   "multiplier": 1.1392,
+   "n_policies": 178
+  },
+  "21-25|51-75|<200": {
+   "multiplier": 1.1459,
+   "n_policies": 1776
+  },
+  "21-25|51-75|200-2000": {
+   "multiplier": 1.1642,
+   "n_policies": 1537
+  },
+  "21-25|51-75|>2000": {
+   "multiplier": 1.1788,
+   "n_policies": 780
+  },
+  "21-25|76-100|<200": {
+   "multiplier": 1.1915,
+   "n_policies": 8415
+  },
+  "21-25|76-100|200-2000": {
+   "multiplier": 1.2161,
+   "n_policies": 10547
+  },
+  "21-25|76-100|>2000": {
+   "multiplier": 1.228,
+   "n_policies": 5846
+  },
+  "21-25|101+|<200": {
+   "multiplier": 1.2674,
+   "n_policies": 834
+  },
+  "21-25|101+|200-2000": {
+   "multiplier": 1.2791,
+   "n_policies": 1049
+  },
+  "21-25|101+|>2000": {
+   "multiplier": 1.2864,
+   "n_policies": 490
+  },
+  "26-30|50|<200": {
+   "multiplier": 1.1398,
+   "n_policies": 1382
+  },
+  "26-30|50|200-2000": {
+   "multiplier": 1.1304,
+   "n_policies": 938
+  },
+  "26-30|50|>2000": {
+   "multiplier": 1.1316,
+   "n_policies": 408
+  },
+  "26-30|51-75|<200": {
+   "multiplier": 1.1348,
+   "n_policies": 13257
+  },
+  "26-30|51-75|200-2000": {
+   "multiplier": 1.1435,
+   "n_policies": 12323
+  },
+  "26-30|51-75|>2000": {
+   "multiplier": 1.1519,
+   "n_policies": 7942
+  },
+  "26-30|76-100|<200": {
+   "multiplier": 1.1717,
+   "n_policies": 8081
+  },
+  "26-30|76-100|200-2000": {
+   "multiplier": 1.1952,
+   "n_policies": 10982
+  },
+  "26-30|76-100|>2000": {
+   "multiplier": 1.2069,
+   "n_policies": 8620
+  },
+  "26-30|101+|<200": {
+   "multiplier": 1.2482,
+   "n_policies": 390
+  },
+  "26-30|101+|200-2000": {
+   "multiplier": 1.2681,
+   "n_policies": 746
+  },
+  "26-30|101+|>2000": {
+   "multiplier": 1.2717,
+   "n_policies": 523
+  },
+  "31-40|50|<200": {
+   "multiplier": 1.1328,
+   "n_policies": 29765
+  },
+  "31-40|50|200-2000": {
+   "multiplier": 1.1326,
+   "n_policies": 24603
+  },
+  "31-40|50|>2000": {
+   "multiplier": 1.1384,
+   "n_policies": 12095
+  },
+  "31-40|51-75|<200": {
+   "multiplier": 1.1367,
+   "n_policies": 26367
+  },
+  "31-40|51-75|200-2000": {
+   "multiplier": 1.1468,
+   "n_policies": 28149
+  },
+  "31-40|51-75|>2000": {
+   "multiplier": 1.1572,
+   "n_policies": 18662
+  },
+  "31-40|76-100|<200": {
+   "multiplier": 1.1869,
+   "n_policies": 7581
+  },
+  "31-40|76-100|200-2000": {
+   "multiplier": 1.2108,
+   "n_policies": 11329
+  },
+  "31-40|76-100|>2000": {
+   "multiplier": 1.2212,
+   "n_policies": 9951
+  },
+  "31-40|101+|<200": {
+   "multiplier": 1.2676,
+   "n_policies": 365
+  },
+  "31-40|101+|200-2000": {
+   "multiplier": 1.274,
+   "n_policies": 675
+  },
+  "31-40|101+|>2000": {
+   "multiplier": 1.2822,
+   "n_policies": 552
+  },
+  "41-50|50|<200": {
+   "multiplier": 1.1328,
+   "n_policies": 50516
+  },
+  "41-50|50|200-2000": {
+   "multiplier": 1.142,
+   "n_policies": 46358
+  },
+  "41-50|50|>2000": {
+   "multiplier": 1.1534,
+   "n_policies": 22858
+  },
+  "41-50|51-75|<200": {
+   "multiplier": 1.1487,
+   "n_policies": 9966
+  },
+  "41-50|51-75|200-2000": {
+   "multiplier": 1.1639,
+   "n_policies": 12502
+  },
+  "41-50|51-75|>2000": {
+   "multiplier": 1.1781,
+   "n_policies": 9664
+  },
+  "41-50|76-100|<200": {
+   "multiplier": 1.2152,
+   "n_policies": 3193
+  },
+  "41-50|76-100|200-2000": {
+   "multiplier": 1.2345,
+   "n_policies": 4920
+  },
+  "41-50|76-100|>2000": {
+   "multiplier": 1.2454,
+   "n_policies": 4401
+  },
+  "41-50|101+|<200": {
+   "multiplier": 1.2799,
+   "n_policies": 239
+  },
+  "41-50|101+|200-2000": {
+   "multiplier": 1.2921,
+   "n_policies": 320
+  },
+  "41-50|101+|>2000": {
+   "multiplier": 1.2939,
+   "n_policies": 242
+  },
+  "51-70|50|<200": {
+   "multiplier": 1.1312,
+   "n_policies": 66710
+  },
+  "51-70|50|200-2000": {
+   "multiplier": 1.1375,
+   "n_policies": 62838
+  },
+  "51-70|50|>2000": {
+   "multiplier": 1.1473,
+   "n_policies": 30776
+  },
+  "51-70|51-75|<200": {
+   "multiplier": 1.1442,
+   "n_policies": 8745
+  },
+  "51-70|51-75|200-2000": {
+   "multiplier": 1.1593,
+   "n_policies": 10805
+  },
+  "51-70|51-75|>2000": {
+   "multiplier": 1.1717,
+   "n_policies": 8218
+  },
+  "51-70|76-100|<200": {
+   "multiplier": 1.2036,
+   "n_policies": 2575
+  },
+  "51-70|76-100|200-2000": {
+   "multiplier": 1.2271,
+   "n_policies": 3920
+  },
+  "51-70|76-100|>2000": {
+   "multiplier": 1.2404,
+   "n_policies": 3498
+  },
+  "51-70|101+|<200": {
+   "multiplier": 1.2693,
+   "n_policies": 144
+  },
+  "51-70|101+|200-2000": {
+   "multiplier": 1.2865,
+   "n_policies": 293
+  },
+  "51-70|101+|>2000": {
+   "multiplier": 1.2937,
+   "n_policies": 346
+  },
+  "71+|50|<200": {
+   "multiplier": 1.1,
+   "n_policies": 14957
+  },
+  "71+|50|200-2000": {
+   "multiplier": 1.1,
+   "n_policies": 12477
+  },
+  "71+|50|>2000": {
+   "multiplier": 1.1,
+   "n_policies": 6338
+  },
+  "71+|51-75|<200": {
+   "multiplier": 1.1,
+   "n_policies": 1568
+  },
+  "71+|51-75|200-2000": {
+   "multiplier": 1.1,
+   "n_policies": 1545
+  },
+  "71+|51-75|>2000": {
+   "multiplier": 1.1,
+   "n_policies": 1123
+  },
+  "71+|76-100|<200": {
+   "multiplier": 1.1,
+   "n_policies": 321
+  },
+  "71+|76-100|200-2000": {
+   "multiplier": 1.1,
+   "n_policies": 489
+  },
+  "71+|76-100|>2000": {
+   "multiplier": 1.1,
+   "n_policies": 413
+  },
+  "71+|101+|<200": {
+   "multiplier": 1.1,
+   "n_policies": 22
+  },
+  "71+|101+|200-2000": {
+   "multiplier": 1.1,
+   "n_policies": 64
+  },
+  "71+|101+|>2000": {
+   "multiplier": 1.1,
+   "n_policies": 48
+  }
+ }
+}

@@ -60,3 +60,43 @@ def test_invalid_input_rejected(field, value):
 
 def test_no_gender_field():
     assert "gender" not in app.openapi()["components"]["schemas"]["QuoteRequest"]["properties"]
+
+
+def test_offer_is_simulated_and_within_bounds():
+    body = post().json()
+    o = body["offer"]
+    assert o["simulated"] is True
+    assert 0.8 <= o["multiplier"] <= 1.3
+    assert o["price"] == pytest.approx(o["technical_premium"] * o["multiplier"])
+    assert 0 < o["expected_conversion"] < 1
+    assert o["annual_technical_premium"] > body["annual_pure_premium"]
+
+
+def test_offer_scales_with_exposure():
+    full, half = post().json()["offer"], post(exposure=0.5).json()["offer"]
+    assert half["price"] == pytest.approx(full["price"] / 2)
+    assert half["expected_conversion"] == pytest.approx(full["expected_conversion"])
+
+
+def test_senior_guard_caps_multiplier():
+    assert post(driver_age=75).json()["offer"]["multiplier"] <= 1.10 + 1e-9
+
+
+def test_sensitivity_curves_conversion_falls_with_price():
+    for curve in post().json()["offer"]["sensitivity"]:
+        conv = [p["conversion"] for p in curve["points"]]
+        assert conv == sorted(conv, reverse=True)
+        assert len(curve["points"]) == 11
+
+
+def test_higher_sensitivity_lowers_conversion_above_market():
+    curves = {c["price_sensitivity"]: c for c in post(bonus_malus=120).json()["offer"]["sensitivity"]}
+    assert curves[6.0]["points"][-1]["conversion"] < curves[2.0]["points"][-1]["conversion"]
+
+
+def test_no_protected_field_in_request_or_segments():
+    from pricing.api import QuoteRequest, load_optimization
+
+    banned = {"gender", "sex", "nationality", "ethnicity", "religion", "disability"}
+    assert not banned & set(QuoteRequest.model_fields)
+    assert not banned & set(load_optimization()["segment_factors"])

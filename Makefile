@@ -3,7 +3,7 @@
 DBT = cd dbt && uv run dbt
 DBT_FLAGS = --profiles-dir .
 
-.PHONY: setup data dbt-build train dbt-post docs pipeline test lint serve docker-build docker-run clean
+.PHONY: setup data dbt-build train optimize dbt-post docs pipeline test lint serve docker-build docker-run clean
 
 setup:
 	uv sync
@@ -17,13 +17,16 @@ dbt-build:           ## staging -> intermediate -> marts, with all tests
 train:               ## GLM + GBM, metrics and figures in results/, tariff in models/
 	uv run python -m pricing.train
 
+optimize:            ## SIMULATED-demand price optimization -> results/price_optimization*, models/price_optimization.json
+	uv run python -m pricing.optimize
+
 dbt-post:            ## loss-ratio mart on the model predictions
 	$(DBT) build $(DBT_FLAGS) --select tag:post_model+
 
 docs:
 	$(DBT) docs generate $(DBT_FLAGS)
 
-pipeline: data dbt-build train dbt-post docs test
+pipeline: data dbt-build train optimize dbt-post docs test
 
 test:
 	uv run pytest -q
