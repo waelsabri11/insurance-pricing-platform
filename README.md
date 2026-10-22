@@ -4,8 +4,11 @@ A small but complete pricing stack on French motor third-party liability data (f
 677,991 policies, 26,444 claims): raw files land as parquet, dbt builds tested
 staging → intermediate → mart layers in DuckDB, a frequency × severity GLM tariff and a
 gradient-boosting challenger are fitted on the marts, model outputs go back into the
-warehouse as a loss-ratio mart, and a FastAPI service quotes from the GLM tariff. Airflow
-or a single `make pipeline` runs the whole thing in about 40 seconds on a laptop.
+warehouse as a loss-ratio mart, and a FastAPI service quotes from the GLM tariff. A price
+optimization layer, run on **simulated** demand, turns the technical premium into an offer
+price, and a React app shows the quote. `docker compose up` starts the app and the API.
+Airflow or a single `make pipeline` runs the data and modelling stack in about 5 minutes on a
+laptop (about 40 seconds without the price optimization step).
 
 ## Results
 
@@ -102,6 +105,140 @@ The GLM's straight-line bonus-malus effect underprices the 51–79 band (loss ra
 and overprices max bonus (0.90). The GBM's monotone fit gets those to 0.92 and 1.03. On
 other dimensions the two tariffs are equally good.
 
+## Quote app
+
+![Quote app](docs/quote-app.png)
+
+A Vite + React + TypeScript single page (`frontend/`). The form validates the same bounds as
+the API, posts to `/api/quote`, and shows the technical premium, the optimized offer with its
+simulated conversion, the factor-by-factor breakdown (bars on a log scale around the base
+profile) and a sensitivity chart of conversion and expected profit against the price
+multiplier under three assumed price sensitivities. Every simulated figure carries a visible
+"Simulated" notice. There is no authentication and no gender field.
+
+```bash
+docker compose up --build          # app on http://localhost:8080, API reachable only through /api
+scripts/smoke_test.sh              # health, one quote through nginx, one rejected payload
+docker compose down
+```
+
+`WEB_PORT=8090 docker compose up` changes the host port. The `web` image is multi-stage
+(Node 22 build, then unprivileged nginx serving the static files and proxying `/api/` to the
+`api` service). The `api` image runs as a non-root user with pinned Python and package
+versions, a read-only filesystem and a health check; it needs only FastAPI, Pydantic and
+Uvicorn. For development: `uv run uvicorn pricing.api:app` and `cd frontend && npm ci && npm run dev`
+(Vite proxies `/api` to port 8000). Frontend checks: `npm run lint`, `npm run typecheck`,
+`npm test`, `npm run build`.
+
+## Price optimization (simulated demand)
+
+> **Everything in this section that involves conversion, volume or profit is simulated.**
+> freMTPL2 holds one year of policies and claims. It has no quotes, conversions, renewals or
+> competitor prices, so a demand curve cannot be estimated from it. The demand model below is a
+> set of explicit assumptions. The results show what the optimizer does *if* those assumptions
+> held, and how much that depends on them. They are not observed or forecast business results.
+
+**Method** (`src/pricing/demand.py`, `src/pricing/optimize.py`, `make optimize`, about 4.5 minutes):
+
+- **Technical premium** = (GLM expected claims + €20 fixed cost) / (1 − 25% variable expenses).
+  This is the break-even gross price.
+- **Demand:** conversion = sigmoid(logit(c0) − b · ln(price / market price)). c0 is the
+  conversion when we match the market proxy and b the price sensitivity. The elasticity of
+  conversion at the market price is −b(1 − c0).
+- **Market-price proxy:** a less segmented tariff than ours (50% flat rate, 50% GLM) at break-even
+  plus 5%. This is what makes some segments look expensive and others cheap to the customer.
+- **Objective:** expected profit = conversion × (price × (1 − 25%) − €20 − expected claims),
+  summed over all 677,991 policies weighted by exposure.
+- **Decision:** one price multiplier on the technical premium for each of 84 segments (driver age
+  band × bonus-malus band × density band), solved with SciPy SLSQP and analytic gradients.
+- **Constraints:** multiplier between 0.80 and 1.30; expected volume at least 90% of the baseline;
+  expected loss ratio at most 70%; multiplier at most 1.10 for drivers aged 71+ (an assumed
+  vulnerable-customer guard).
+- **Baselines:** (a) technical premium + a flat 10% loading, as requested; (b) the best single
+  multiplier for the whole book under the same constraints, because beating a loading that was
+  not tuned says little.
+
+**Parameters.** No elasticity is taken from the literature, because I did not find a figure
+I could cite and verify. The base case is c0 = 15% and b = 4 (elasticity −3.4 at the market
+price). These are assumptions, with a sensitivity grid of b from 2 to 8 (elasticity about −1.5
+to −7) and c0 from 10% to 25%. Guillén, Guelman and Pérez-Marín
+([ASTIN Colloquium 2013](https://actuaries.org/app/uploads/2025/07/Guillen_Paper_Hague2013.pdf))
+is the methodological reference for estimating price elasticity in motor insurance
+with causal methods on real quote data, which is what replacing these assumptions would need.
+The 25% expense ratio, €20 fixed cost, 10% loading and the constraint levels are also assumptions.
+
+**Results** (simulated, per year over the whole book, base case; source
+[`results/price_optimization.json`](results/price_optimization.json)):
+
+| | Flat 10% loading | Best flat multiplier (×1.135) | Optimized per segment |
+|---|---|---|---|
+| Expected profit | €0.98M | €1.20M | **€1.22M** |
+| Profit vs flat 10% loading | – | +22.2% | **+24.8%** |
+| Expected volume (policy-years converted) | 68,778 | 62,533 | 61,901 |
+| Mean simulated conversion | 19.2% | 17.5% | 17.3% |
+| Expected loss ratio | 58.6% | 56.8% | 56.3% |
+| Profit if costs follow the GBM instead of the GLM | €1.22M | €1.42M | €1.47M |
+
+- **Most of the gain is the loading level, not the segmentation.** The best single multiplier
+  already captures +22.2 of the +24.8 points. Segment-level optimization adds only 2.6 points on
+  top, at the same 90% volume floor, which binds.
+- **Price changes versus the flat-loading price** (exposure-weighted): median +3.4%, 25th–75th
+  percentile +3.0% to +4.7%, 95th percentile +11.0%, 99th +15.6%. No policy gets cheaper and 92%
+  pay more than 0.5% extra, because at this market proxy the optimum under the volume floor sits above 1.10.
+- **Who pays more.** Mean multipliers rise from 1.10 for 71+ (capped) and 1.14 for 51–70 to 1.27 for
+  18–20; from 1.13 at max bonus to 1.27 above bonus-malus 100. The optimizer pushes load onto the
+  segments that are already the most expensive, which is where a regulator and a pricing committee
+  should look first. Density barely matters (gap 0.03).
+- **Volume floor frontier** ([`price_optimization_volume_frontier.csv`](results/price_optimization_volume_frontier.csv)):
+  profit uplift vs flat loading is +44.2% at a floor of 80% of baseline volume, +24.8% at 90%,
+  +1.2% at 100%. The result depends heavily on how much volume is allowed to go.
+- **Sensitivity** ([`price_optimization_sensitivity.csv`](results/price_optimization_sensitivity.csv),
+  17 scenarios, each re-optimized): the uplift vs flat loading ranges from +10.4% (b = 8, c0 = 10%)
+  to +70.5% (b = 2, c0 = 25%). Applying the base-case multipliers when demand is really different
+  still gives +12.5% to +39.8%, but violates the 90% volume floor in most scenarios (down to
+  84.8% of baseline), so those profit numbers are not like for like with the re-optimized ones.
+  Moving the market offset to 0% or 10% changes the uplift only from +23.7% to +26.1%.
+
+![Price optimization](results/figures/price_optimization.png)
+
+Files: `results/price_optimization.json`, `price_optimization_segments.csv` (multiplier,
+exposure and conversion per segment), `price_optimization_sensitivity.csv`,
+`price_optimization_volume_frontier.csv`. The segment multipliers served by the API live in
+`models/price_optimization.json`, written by the same run.
+
+**In the API.** `POST /quote` now also returns an `offer`: technical premium, segment, multiplier,
+offer price, market-price proxy, simulated conversion and expected profit, the flat-loading
+reference price, and three conversion/profit curves over multipliers 0.80–1.30 for different
+price sensitivities. `offer.simulated` is always `true`.
+
+**Fairness and regulation.**
+
+- The optimizer sees only three legitimate tariff factors (age band, bonus-malus band, density band);
+  the code has an explicit list of forbidden factors (gender and others) and a test checks that
+  neither the request schema nor the segment factors contain them. Gender has been banned in EU
+  insurance pricing since Test-Achats (see above).
+- Price optimization on demand elasticity is a separate question from risk-based pricing. In the UK
+  the FCA banned renewal "price walking" for home and motor from 1 January 2022
+  ([PS21/5](https://www.fca.org.uk/publication/policy/ps21-5.pdf)). I did not research the French
+  or ACPR position on price optimization, so I make no claim about it here. A production version needs
+  that review, a customer-outcome (fair value) test, and a check that the multipliers do not
+  concentrate increases on vulnerable or protected groups. Age is a legal rating factor in
+  France, but here the largest increases go to the youngest drivers, so this check is not a formality.
+- Guards implemented: bounded multiplier, a cap for 71+, a loss-ratio ceiling and a volume floor.
+  The report lists mean multipliers by band so the spread is visible.
+
+**Limits of this layer.**
+
+- The demand curve is assumed, with one curve for everyone: no customer-level elasticity, no
+  competitor reaction, no renewal or tenure effect, no cross-product effects.
+- Higher prices attract worse risks, and none of that adverse selection is modelled. Expected claims
+  are the GLM's, treated as exact; the GBM cost check above shows the profit level moves by 20–25%.
+- It is optimized and evaluated on the same book, and the GLM in-sample part (80% of policies) is
+  slightly optimistic. The book is treated as the quote population, so "volume" means expected
+  converted policy-years, not real sales.
+- Segment-level multipliers only; a per-policy optimizer would be easy to add (the demand model
+  is per policy) but would raise the fairness question above.
+
 ## Architecture
 
 ```mermaid
@@ -128,9 +265,12 @@ flowchart LR
 | `dbt/models/marts` | `fct_policies`, `fct_claims`, `mart_segment_kpis` (frequency, severity, pure premium by segment), and `mart_loss_ratio_by_segment` (tag `post_model`). |
 | dbt tests (50) | `unique`, `not_null`, `relationships`, `accepted_values`, plus three custom generic tests (`accepted_range`, `row_count_between` volume checks on sources and marts, `unique_combination`) and a singular test that every policy's ClaimNb matches its claim records. |
 | `src/pricing/train.py` | GLMs (statsmodels), GBMs (scikit-learn HistGradientBoosting), metrics, relativities, SHAP, figures. |
-| `src/pricing/rating.py`, `api.py` | Pure-Python rating from the tariff JSON; FastAPI `/quote` and `/health`. |
+| `src/pricing/rating.py`, `api.py` | Pure-Python rating from the tariff JSON; FastAPI `/quote` (with the optimized offer) and `/health`. |
+| `src/pricing/demand.py`, `optimize.py`, `offer.py` | Simulated demand model, segment price optimization (SciPy), and the pure-Python offer computation used by the API. |
+| `frontend/` | Vite + React + TypeScript quote app, served by nginx in the `web` image. |
+| `compose.yaml` | `api` (FastAPI) and `web` (nginx + static app) on localhost:8080. |
 | `dags/motor_pricing_dag.py` | `data → dbt_build → train → dbt_post → [docs, test]`, each task calls the matching `make` target. |
-| `.github/workflows/ci.yml` | Lint, download, dbt build and tests on DuckDB, training, post-model dbt, pytest, dbt docs. |
+| `.github/workflows/ci.yml` | Three jobs. `build`: lint, download, dbt build and tests on DuckDB, training, price optimization, post-model dbt, pytest, dbt docs. `frontend`: `npm ci`, ESLint, tsc, Vitest, build. `docker`: `docker compose config`, build both images, start the stack, smoke test `/health` and one `/quote`. |
 
 ### Modelling choices
 
@@ -220,7 +360,7 @@ uv sync
 make pipeline        # download -> dbt build + tests -> train -> loss-ratio mart -> dbt docs -> pytest
 ```
 
-Individual steps: `make data`, `make dbt-build`, `make train`, `make dbt-post`, `make docs`,
+Individual steps: `make data`, `make dbt-build`, `make train`, `make optimize`, `make dbt-post`, `make docs`,
 `make test`. Explore the marts with `uv run duckdb data/warehouse.duckdb`, or browse the
 docs with `cd dbt && uv run dbt docs serve --profiles-dir .`.
 
@@ -234,7 +374,7 @@ curl -s localhost:8000/quote -H 'content-type: application/json' -d '{
   "region_name": "Ile-de-France"}'
 ```
 
-Docker: `make docker-build && make docker-run`.
+Docker: `make docker-build && make docker-run` for the API alone, or `docker compose up --build` for the app (see Quote app).
 
 Airflow (3.x, in a separate environment):
 
@@ -259,16 +399,19 @@ DBT_TARGET=snowflake make dbt-build
 
 | Check | Status |
 |---|---|
-| `make pipeline` from a clean state | Passes locally in about 40 s: 50 dbt tests, 21 pytest tests |
-| `airflow dags test motor_pricing` | All 6 tasks succeed (Airflow 3.3.2, separate venv) |
+| `make pipeline` from a clean state | Passes locally in about 40 s: 50 dbt tests, 21 pytest tests (before the price optimization layer) |
+| Full pipeline in a clean `python:3.12` container from a `git archive` of the commit | Passes (download, dbt build with 50 tests, train, `make optimize`, post-model dbt, docs, ruff, 33 pytest tests). Outputs match the committed results to 1e-11 relative |
+| `airflow dags test motor_pricing` | All 6 tasks succeeded in an earlier run (Airflow 3.3.2, separate venv). Not re-run since `optimize` was added to the Makefile; the DAG itself does not call it yet |
 | API rating vs training predictions | Equal to 1e-9 on 500 real policies (`tests/test_pipeline_consistency.py`) |
 | `dbt parse` against the Snowflake target | Passes |
-| Docker image build | Not run: Docker is not installed on the development machine |
-| GitHub Actions workflow | Written; it runs on the first push |
+| Frontend: `npm ci`, ESLint, `tsc`, Vitest (16 tests), `vite build` | Pass in a clean Node 22 container from a `git archive` of the commit |
+| Docker images and compose | Built and run on OrbStack (Docker 29.8, Compose 5.5), also from the clean `git archive`. `scripts/smoke_test.sh` passes: `/api/health`, one `/api/quote` with an offer, and a 422 on an invalid payload. Containers run as non-root (api uid 10001, nginx uid 101) |
+| GitHub Actions workflow | Written (jobs `build`, `frontend`, `docker`) and not run on GitHub yet; each step was run locally as above |
 | Snowflake load and build | Not run (no account yet) |
 
 ## Limits
 
+- **Simulated demand.** The price optimization results depend entirely on assumed demand parameters (see that section); they are not observed.
 - **No written premium.** Loss ratios are actual losses over each model's technical
   (pure) premium, with no expenses, commissions or profit loading.
 - **One year of data.** freMTPL2 is a single cross-section, so there is no out-of-time
