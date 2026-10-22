@@ -1,0 +1,57 @@
+:root {
+  --bg: #f6f7f9; --card: #fff; --text: #1b1f24; --muted: #57606a; --border: #d8dee4;
+  --primary: #1f6feb; --up: #cf222e; --down: #1a7f37; --warn-bg: #fff8c5; --warn-border: #d4a72c;
+  color-scheme: light dark;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #0d1117; --card: #161b22; --text: #e6edf3; --muted: #9da7b3; --border: #30363d; --primary: #58a6ff; --up: #ff7b72; --down: #56d364; --warn-bg: #3d3000; --warn-border: #9e6a03; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); }
+main { max-width: 1120px; margin: 0 auto; padding: 24px 16px 48px; }
+header h1 { margin: 0 0 4px; font-size: 1.6rem; }
+header p { margin: 0 0 20px; color: var(--muted); }
+.layout { display: grid; grid-template-columns: minmax(280px, 380px) 1fr; gap: 20px; align-items: start; }
+@media (max-width: 800px) { .layout { grid-template-columns: 1fr; } }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+.card h2 { margin: 0 0 8px; font-size: 1.05rem; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
+.field { display: flex; flex-direction: column; gap: 4px; }
+.field label { font-size: 0.85rem; font-weight: 600; }
+input, select { width: 100%; min-width: 0; font: inherit; padding: 8px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg); color: var(--text); }
+input[aria-invalid='true'] { border-color: var(--up); }
+small { color: var(--muted); font-size: 0.78rem; }
+small.error { color: var(--up); }
+.note { color: var(--muted); font-size: 0.85rem; margin: 6px 0 12px; }
+button.primary { width: 100%; padding: 10px; border: 0; border-radius: 6px; background: var(--primary); color: #fff; font: inherit; font-weight: 600; cursor: pointer; }
+button.primary:disabled { opacity: 0.6; cursor: wait; }
+.kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+@media (max-width: 600px) { .kpis { grid-template-columns: 1fr; } }
+.kpis > div { display: flex; flex-direction: column; gap: 2px; }
+.kpis strong { font-size: 1.6rem; }
+.kpi-label { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+.highlight strong { color: var(--primary); }
+.simulated { background: var(--warn-bg); border: 1px solid var(--warn-border); border-radius: 8px; padding: 10px 12px; font-size: 0.85rem; margin: 0 0 16px; }
+.error-card { border-color: var(--up); color: var(--up); }
+.placeholder { color: var(--muted); }
+.breakdown { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.breakdown li { display: grid; grid-template-columns: minmax(110px, 1.1fr) 2fr 62px; gap: 8px; align-items: center; font-size: 0.88rem; }
+.factor-name small { display: block; }
+.bar-track { position: relative; height: 14px; background: var(--bg); border-radius: 4px; }
+.bar-axis { position: absolute; left: 50%; top: -2px; bottom: -2px; width: 1px; background: var(--muted); }
+.bar { position: absolute; top: 0; bottom: 0; border-radius: 3px; }
+.bar.up { background: var(--up); }
+.bar.down { background: var(--down); }
+.rel { text-align: right; font-variant-numeric: tabular-nums; }
+.toggle { display: inline-flex; margin-bottom: 8px; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+.toggle button { font: inherit; font-size: 0.85rem; padding: 4px 12px; border: 0; background: var(--card); color: var(--text); cursor: pointer; }
+.toggle button[aria-pressed='true'] { background: var(--primary); color: #fff; }
+.chart { width: 100%; height: auto; }
+.chart .grid { stroke: var(--border); stroke-width: 1; }
+.chart .tick { fill: var(--muted); font-size: 11px; }
+.chart .marker { stroke: var(--text); stroke-dasharray: 2 3; }
+.legend { list-style: none; display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 0; margin: 4px 0 0; font-size: 0.8rem; color: var(--muted); }
+.swatch { display: inline-block; width: 14px; height: 4px; margin-right: 6px; vertical-align: middle; border-radius: 2px; }
+.marker-swatch { background: var(--text); width: 2px; height: 12px; }

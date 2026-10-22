@@ -34,7 +34,8 @@ def offer(optimization: dict, profile: dict, annual_pure_premium: float, exposur
     n_steps = round((hi - lo) / CURVE_STEP)
     multipliers = [round(lo + i * CURVE_STEP, 4) for i in range(n_steps + 1)]
     curves = []
-    for sc in [{"label": "base assumption", **demand.as_dict()}, *optimization["sensitivity_scenarios"]]:
+    others = [s for s in optimization["sensitivity_scenarios"] if s["price_sensitivity"] != demand.price_sensitivity]
+    for sc in [{"label": "base assumption", **demand.as_dict()}, *others]:
         d = DemandParams(sc["base_conversion"], sc["price_sensitivity"])
         points = []
         for m in multipliers:

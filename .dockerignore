@@ -1,5 +1,8 @@
 *
 !src/pricing/__init__.py
 !src/pricing/rating.py
+!src/pricing/demand.py
+!src/pricing/offer.py
 !src/pricing/api.py
 !models/tariff.json
+!models/price_optimization.json

@@ -1,0 +1,19 @@
+# docker compose up --build   ->   app on http://localhost:8080 (API reachable only through /api)
+services:
+  api:
+    build: .
+    image: motor-quote-api
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+
+  web:
+    build: ./frontend
+    image: motor-quote-web
+    restart: unless-stopped
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "${WEB_PORT:-8080}:8080"

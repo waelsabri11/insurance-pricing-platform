@@ -100,3 +100,8 @@ def test_no_protected_field_in_request_or_segments():
     banned = {"gender", "sex", "nationality", "ethnicity", "religion", "disability"}
     assert not banned & set(QuoteRequest.model_fields)
     assert not banned & set(load_optimization()["segment_factors"])
+
+
+def test_sensitivity_scenarios_are_distinct():
+    sens = [c["price_sensitivity"] for c in post().json()["offer"]["sensitivity"]]
+    assert len(sens) == len(set(sens)) == 3
