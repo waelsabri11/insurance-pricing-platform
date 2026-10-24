@@ -1,0 +1,1076 @@
+{
+  "test_policies": 135629,
+  "test_exposure_years": 71675.9,
+  "min_exposure_for_reliable_segment": 500.0,
+  "n_boot": 300,
+  "premium_unit": "pure premium per exposure-year (EUR), no expenses or loading",
+  "portfolio": {
+    "glm": {
+      "mean": 164.81129525138283,
+      "cv": 0.7315824626058605,
+      "p05": 78.1851960991958,
+      "p25": 105.78792567483785,
+      "p50": 132.808836961418,
+      "p75": 178.2382701998434,
+      "p95": 360.35307691093163,
+      "p95_over_p05": 4.608968128106263,
+      "min": 36.9289991705645,
+      "max": 4031.7387423621058
+    },
+    "gbm": {
+      "mean": 164.53995921511793,
+      "cv": 0.8689209387366535,
+      "p05": 53.149331969567804,
+      "p25": 90.16367079718509,
+      "p50": 124.04053451914838,
+      "p75": 185.72944209415556,
+      "p95": 409.8997661755875,
+      "p95_over_p05": 7.712227999597202,
+      "min": 13.116677088953441,
+      "max": 2592.157590518615
+    }
+  },
+  "segments": {
+    "driver_age_band": {
+      "column": "driver_age_band",
+      "n_segments": 7,
+      "n_reliable": 7,
+      "summary_reliable_segments": {
+        "glm": {
+          "premium_index_min": 0.8662467239845361,
+          "premium_index_max": 4.331710619487294,
+          "premium_index_exposure_weighted_sd": 0.34767620869653953,
+          "ae_capped_min": 0.7816283293379662,
+          "ae_capped_max": 1.180325872992035,
+          "mean_abs_ae_minus_1_exposure_weighted": 0.04900479097646504,
+          "segments_with_ci_excluding_1": [
+            "21-25"
+          ]
+        },
+        "gbm": {
+          "premium_index_min": 0.8767708063256439,
+          "premium_index_max": 3.766766868082687,
+          "premium_index_exposure_weighted_sd": 0.3127216461276676,
+          "ae_capped_min": 0.7699107418713049,
+          "ae_capped_max": 1.359590772238348,
+          "mean_abs_ae_minus_1_exposure_weighted": 0.04829198024294767,
+          "segments_with_ci_excluding_1": [
+            "21-25"
+          ]
+        }
+      },
+      "rows": [
+        {
+          "segment": "18-20",
+          "policies": 1338,
+          "exposure_years": 523.0,
+          "reliable": true,
+          "claims_actual_full_eur_per_year": 3259.781280815752,
+          "glm": {
+            "mean_premium": 713.9148378518707,
+            "premium_index_vs_portfolio": 4.331710619487294,
+            "ae_full": 4.566064617208754,
+            "ae_capped_loaded": 1.180325872992035,
+            "ae_capped_loaded_ci95": [
+              0.8274702812351792,
+              1.6152091584697872
+            ]
+          },
+          "gbm": {
+            "mean_premium": 619.7836668471829,
+            "premium_index_vs_portfolio": 3.766766868082687,
+            "ae_full": 5.259546927717766,
+            "ae_capped_loaded": 1.359590772238348,
+            "ae_capped_loaded_ci95": [
+              0.9359969489369102,
+              1.881158294140141
+            ]
+          }
+        },
+        {
+          "segment": "21-25",
+          "policies": 6480,
+          "exposure_years": 2775.6,
+          "reliable": true,
+          "claims_actual_full_eur_per_year": 196.81148800247357,
+          "glm": {
+            "mean_premium": 312.30222824353467,
+            "premium_index_vs_portfolio": 1.8949079173680867,
+            "ae_full": 0.630195593253978,
+            "ae_capped_loaded": 0.7816283293379662,
+            "ae_capped_loaded_ci95": [
+              0.6309576616197957,
+              0.9576451107823146
+            ]
+          },
+          "gbm": {
+            "mean_premium": 317.0552839894285,
+            "premium_index_vs_portfolio": 1.9269196704668776,
+            "ae_full": 0.6207481721359225,
+            "ae_capped_loaded": 0.7699107418713049,
+            "ae_capped_loaded_ci95": [
+              0.623163698281108,
+              0.9395931264905051
+            ]
+          }
+        },
+        {
+          "segment": "26-30",
+          "policies": 13222,
+          "exposure_years": 5858.1,
+          "reliable": true,
+          "claims_actual_full_eur_per_year": 126.450434384366,
+          "glm": {
+            "mean_premium": 186.14777199249355,
+            "premium_index_vs_portfolio": 1.1294600391833987,
+            "ae_full": 0.679301358436163,
+            "ae_capped_loaded": 0.8832262236100136,
+            "ae_capped_loaded_ci95": [
+              0.7256469281289811,
+              1.045138615906666
+            ]
+          },
+          "gbm": {
+            "mean_premium": 188.1531984868992,
+            "premium_index_vs_portfolio": 1.143510666858192,
+            "ae_full": 0.672061040690576,
+            "ae_capped_loaded": 0.8738123774270866,
+            "ae_capped_loaded_ci95": [
+              0.7197367316056974,
+              1.038267774582959
+            ]
+          }
+        },
+        {
+          "segment": "31-40",
+          "policies": 33909,
+          "exposure_years": 16708.4,
+          "reliable": true,
+          "claims_actual_full_eur_per_year": 188.7526191830788,
+          "glm": {
+            "mean_premium": 153.300249290833,
+            "premium_index_vs_portfolio": 0.9301562071762599,
+            "ae_full": 1.231261006138271,
+            "ae_capped_loaded": 0.9429749829198762,
+            "ae_capped_loaded_ci95": [
+              0.8366184327788877,
+              1.0632751952206214
+            ]
+          },
+          "gbm": {
+            "mean_premium": 152.22760659626672,
+            "premium_index_vs_portfolio": 0.9251710485551162,
+            "ae_full": 1.239936851163157,
+            "ae_capped_loaded": 0.949619475658111,
+            "ae_capped_loaded_ci95": [
+              0.8426424101056363,
+              1.0731122002709825
+            ]
+          }
+        },
+        {
+          "segment": "41-50",
+          "policies": 33063,
+          "exposure_years": 17695.5,
+          "reliable": true,
+          "claims_actual_full_eur_per_year": 120.51551013865517,
+          "glm": {
+            "mean_premium": 162.14167384985382,
+            "premium_index_vs_portfolio": 0.9838019512105823,
+            "ae_full": 0.7432728876985367,
+            "ae_capped_loaded": 0.9616094601775559,
+            "ae_capped_loaded_ci95": [
+              0.8630238757437019,
+              1.074275958116787
+            ]
+          },
+          "gbm": {
+            "mean_premium": 162.29484169980304,
+            "premium_index_vs_portfolio": 0.9863551837132788,
+            "ae_full": 0.7425714143248795,
+            "ae_capped_loaded": 0.9607019288477637,
+            "ae_capped_loaded_ci95": [
+              0.8610630477950619,
+              1.070527502143049
+            ]
+          }
+        },
+        {
+          "segment": "51-70",
+          "policies": 39740,
+          "exposure_years": 22748.3,
+          "reliable": true,
+          "claims_actual_full_eur_per_year": 139.36974761802503,
+          "glm": {
+            "mean_premium": 142.7672445871585,
+            "premium_index_vs_portfolio": 0.8662467239845361,
+            "ae_full": 0.9762025457663063,
+            "ae_capped_loaded": 1.0158192936950807,
+            "ae_capped_loaded_ci95": [
+              0.8926670494059238,
+              1.1265562853143636
+            ]
+          },
+          "gbm": {
+            "mean_premium": 144.95727305403145,
+            "premium_index_vs_portfolio": 0.8809852253853773,
+            "ae_full": 0.9614539835202079,
+            "ae_capped_loaded": 1.0004721977990247,
+            "ae_capped_loaded_ci95": [
+              0.8772690657584692,
+              1.106502525641111
+            ]
+          }
+        },
+        {
+          "segment": "71+",
+          "policies": 7877,
+          "exposure_years": 5366.9,
+          "reliable": true,
+          "claims_actual_full_eur_per_year": 221.84939347207353,
+          "glm": {
+            "mean_premium": 149.81018578938009,
+            "premium_index_vs_portfolio": 0.9089800887789766,
+            "ae_full": 1.4808698908095224,
+            "ae_capped_loaded": 1.0253337430104816,
+            "ae_capped_loaded_ci95": [
+              0.7988978127236331,
+              1.3534657784747437
+            ]
+          },
+          "gbm": {
+            "mean_premium": 144.2638327138275,
+            "premium_index_vs_portfolio": 0.8767708063256439,
+            "ae_full": 1.537803268488995,
+            "ae_capped_loaded": 1.064753622907163,
+            "ae_capped_loaded_ci95": [
+              0.8260444328431503,
+              1.403094417305474
+            ]
+          }
+        }
+      ]
+    },
+    "area": {
+      "column": "area_code",
+      "n_segments": 6,
+      "n_reliable": 6,
+      "summary_reliable_segments": {
+        "glm": {
+          "premium_index_min": 0.7303047319895564,
+          "premium_index_max": 1.3104845324511456,
+          "premium_index_exposure_weighted_sd": 0.19992055800328445,
+          "ae_capped_min": 0.8799796715271305,
+          "ae_capped_max": 1.0380052127161599,
+          "mean_abs_ae_minus_1_exposure_weighted": 0.049140404835240334,
+          "segments_with_ci_excluding_1": [
+            "E"
+          ]
+        },
+        "gbm": {
+          "premium_index_min": 0.7402873358479749,
+          "premium_index_max": 1.3590112837579855,
+          "premium_index_exposure_weighted_sd": 0.2136985933483822,
+          "ae_capped_min": 0.8527454502126881,
+          "ae_capped_max": 1.0288826173256895,
+          "mean_abs_ae_minus_1_exposure_weighted": 0.05189711280520306,
+          "segments_with_ci_excluding_1": [
+            "E"
+          ]
+        }
+      },
+      "rows": [
+        {
+          "segment": "A",
+          "policies": 20811,
+          "exposure_years": 12335.4,
+          "reliable": true,
+          "claims_actual_full_eur_per_year": 142.2939750609084,
+          "glm": {
+            "mean_premium": 120.36246880741278,
+            "premium_index_vs_portfolio": 0.7303047319895564,
+            "ae_full": 1.1822121668888943,
+            "ae_capped_loaded": 0.9938398259859899,
+            "ae_capped_loaded_ci95": [
+              0.8203115731003779,
+              1.1888550937760602
+            ]
+          },
+          "gbm": {
+            "mean_premium": 121.80684804789409,
+            "premium_index_vs_portfolio": 0.7402873358479749,
+            "ae_full": 1.1681935567773565,
+            "ae_capped_loaded": 0.9820549252515639,
+            "ae_capped_loaded_ci95": [
+              0.8110826534160775,
+              1.1722139007177208
+            ]
+          }
+        },
+        {
+          "segment": "B",
+          "policies": 15040,
+          "exposure_years": 8525.2,
+          "reliable": true,
+          "claims_actual_full_eur_per_year": 99.0706360170842,
+          "glm": {
+            "mean_premium": 135.4594709398728,
+            "premium_index_vs_portfolio": 0.8219064763325816,
+            "ae_full": 0.7313673627225318,
+            "ae_capped_loaded": 0.9517671660344535,
+            "ae_capped_loaded_ci95": [
+              0.8095781550374196,
+              1.1373225198758135
+            ]
+          },
+          "gbm": {
+            "mean_premium": 141.2885590769015,
+            "premium_index_vs_portfolio": 0.8586884289437693,
+            "ae_full": 0.7011936186790705,
+            "ae_capped_loaded": 0.9125004714557001,
+            "ae_capped_loaded_ci95": [
+              0.7755620633619599,
+              1.0837037856149574
+            ]
+          }
+        },
+        {
+          "segment": "C",
+          "policies": 38193,
+          "exposure_years": 20883.9,
+          "reliable": true,
+          "claims_actual_full_eur_per_year": 203.47952797253214,
+          "glm": {
+            "mean_premium": 152.9824984707765,
+            "premium_index_vs_portfolio": 0.9282282396812419,
+            "ae_full": 1.3300837024269272,
+            "ae_capped_loaded": 0.9637855622295319,
+            "ae_capped_loaded_ci95": [
+              0.873542271561535,
+              1.084957933941919
+            ]
+          },
+          "gbm": {
+            "mean_premium": 144.65943036799564,
+            "premium_index_vs_portfolio": 0.8791750712595554,
+            "ae_full": 1.4066108753152524,
+            "ae_capped_loaded": 1.0192375493589383,
+            "ae_capped_loaded_ci95": [
+              0.9244691576056226,
+              1.1497615939458463
+            ]
+          }
+        },
+        {
+          "segment": "D",
+          "policies": 30496,
+          "exposure_years": 15568.7,
+          "reliable": true,
+          "claims_actual_full_eur_per_year": 190.52331978040837,
+          "glm": {
+            "mean_premium": 185.50087218880665,
+            "premium_index_vs_portfolio": 1.1255349453195334,
+            "ae_full": 1.027075061870813,
+            "ae_capped_loaded": 1.0380052127161599,
+            "ae_capped_loaded_ci95": [
+              0.9070629515740031,
+              1.1588363384157236
+            ]
+          },
+          "gbm": {
+            "mean_premium": 187.14561705382962,
+            "premium_index_vs_portfolio": 1.1373870392732823,
+            "ae_full": 1.018048527022715,
+            "ae_capped_loaded": 1.0288826173256895,
+            "ae_capped_loaded_ci95": [
+              0.8993876007914086,
+              1.1489716320020935
+            ]
+          }
+        },
+        {
+          "segment": "E",
+          "policies": 27560,
+          "exposure_years": 12752.7,
+          "reliable": true,
+          "claims_actual_full_eur_per_year": 203.69862235315304,
+          "glm": {
+            "mean_premium": 215.98265320017614,
+            "premium_index_vs_portfolio": 1.3104845324511456,
+            "ae_full": 0.9431249192237765,
+            "ae_capped_loaded": 0.882866396349615,
+            "ae_capped_loaded_ci95": [
+              0.793804830419132,
+              0.9905647870607535
+            ]
+          },
+          "gbm": {
+            "mean_premium": 223.611661202424,
+            "premium_index_vs_portfolio": 1.3590112837579855,
+            "ae_full": 0.9109481198690944,
+            "ae_capped_loaded": 0.8527454502126881,
+            "ae_capped_loaded_ci95": [
+              0.766997597920909,
+              0.9562221107022073
+            ]
+          }
+        },
+        {
+          "segment": "F",
+          "policies": 3529,
+          "exposure_years": 1610.1,
+          "reliable": true,
+          "claims_actual_full_eur_per_year": 140.4296667145135,
+          "glm": {
+            "mean_premium": 208.82918419952173,
+            "premium_index_vs_portfolio": 1.2670805352327306,
+            "ae_full": 0.6724618843520584,
+            "ae_capped_loaded": 0.8799796715271305,
+            "ae_capped_loaded_ci95": [
+              0.6378388441742604,
+              1.1359902100645134
+            ]
+          },
+          "gbm": {
+            "mean_premium": 186.44660923199802,
+            "premium_index_vs_portfolio": 1.1331387835598012,
+            "ae_full": 0.7531897055836235,
+            "ae_capped_loaded": 0.9856196241601367,
+            "ae_capped_loaded_ci95": [
+              0.7173166621223058,
+              1.2909251905687202
+            ]
+          }
+        }
+      ]
+    },
+    "region": {
+      "column": "region_name",
+      "n_segments": 22,
+      "n_reliable": 16,
+      "summary_reliable_segments": {
+        "glm": {
+          "premium_index_min": 0.5949830852153947,
+          "premium_index_max": 1.3371890851611594,
+          "premium_index_exposure_weighted_sd": 0.1899540006970502,
+          "ae_capped_min": 0.6745327263261779,
+          "ae_capped_max": 1.3370829885066777,
+          "mean_abs_ae_minus_1_exposure_weighted": 0.07695981538051111,
+          "segments_with_ci_excluding_1": [
+            "Bourgogne",
+            "Haute-Normandie",
+            "Nord-Pas-de-Calais"
+          ]
+        },
+        "gbm": {
+          "premium_index_min": 0.7142140299351978,
+          "premium_index_max": 1.2827061275571938,
+          "premium_index_exposure_weighted_sd": 0.17714213272975438,
+          "ae_capped_min": 0.5855470027618388,
+          "ae_capped_max": 1.3111083390468627,
+          "mean_abs_ae_minus_1_exposure_weighted": 0.07701968690090075,
+          "segments_with_ci_excluding_1": [
+            "Haute-Normandie",
+            "Nord-Pas-de-Calais"
+          ]
+        }
+      },
+      "rows": [
+        {
+          "segment": "Alsace",
+          "policies": 467,
+          "exposure_years": 246.8,
+          "reliable": false,
+          "claims_actual_full_eur_per_year": 135.89604543481565,
+          "glm": {
+            "mean_premium": 116.0585565484496,
+            "premium_index_vs_portfolio": 0.7041905493881847,
+            "ae_full": 1.170926551874568,
+            "ae_capped_loaded": 1.5322676072470602,
+            "ae_capped_loaded_ci95": [
+              0.8008535930179694,
+              2.374152480716437
+            ]
+          },
+          "gbm": {
+            "mean_premium": 161.63416865475352,
+            "premium_index_vs_portfolio": 0.9823399095622395,
+            "ae_full": 0.8407631045208404,
+            "ae_capped_loaded": 1.1002176595648336,
+            "ae_capped_loaded_ci95": [
+              0.5659456416218132,
+              1.6909991865327711
+            ]
+          }
+        },
+        {
+          "segment": "Aquitaine",
+          "policies": 6349,
+          "exposure_years": 2877.8,
+          "reliable": true,
+          "claims_actual_full_eur_per_year": 144.78679344222036,
+          "glm": {
+            "mean_premium": 160.88145703537083,
+            "premium_index_vs_portfolio": 0.9761555286000397,
+            "ae_full": 0.8999594863837418,
+            "ae_capped_loaded": 1.0347599864813877,
+            "ae_capped_loaded_ci95": [
+              0.7893254077591428,
+              1.3982610134574942
+            ]
+          },
+          "gbm": {
+            "mean_premium": 165.05179992171767,
+            "premium_index_vs_portfolio": 1.0031107380179338,
+            "ae_full": 0.8772203242308851,
+            "ae_capped_loaded": 1.008614837196462,
+            "ae_capped_loaded_ci95": [
+              0.7638433093405478,
+              1.3588137573203278
+            ]
+          }
+        },
+        {
+          "segment": "Auvergne",
+          "policies": 1036,
+          "exposure_years": 463.7,
+          "reliable": false,
+          "claims_actual_full_eur_per_year": 78.24937758967042,
+          "glm": {
+            "mean_premium": 104.18079410328933,
+            "premium_index_vs_portfolio": 0.6321216876815682,
+            "ae_full": 0.7510921591948188,
+            "ae_capped_loaded": 0.9828747872776544,
+            "ae_capped_loaded_ci95": [
+              0.5279664796470754,
+              1.4511578102972014
+            ]
+          },
+          "gbm": {
+            "mean_premium": 150.28908566587035,
+            "premium_index_vs_portfolio": 0.9133895886614622,
+            "ae_full": 0.5206590834123381,
+            "ae_capped_loaded": 0.6813314179736287,
+            "ae_capped_loaded_ci95": [
+              0.36527613061142056,
+              1.0043959683335724
+            ]
+          }
+        },
+        {
+          "segment": "Basse-Normandie",
+          "policies": 2219,
+          "exposure_years": 1351.6,
+          "reliable": true,
+          "claims_actual_full_eur_per_year": 218.25148748090746,
+          "glm": {
+            "mean_premium": 146.69787680248254,
+            "premium_index_vs_portfolio": 0.8900960130112908,
+            "ae_full": 1.487761733421448,
+            "ae_capped_loaded": 1.3370829885066777,
+            "ae_capped_loaded_ci95": [
+              0.7960555440910467,
+              2.0444056138009907
+            ]
+          },
+          "gbm": {
+            "mean_premium": 149.60414000969675,
+            "premium_index_vs_portfolio": 0.9092267964774792,
+            "ae_full": 1.458859945097517,
+            "ae_capped_loaded": 1.3111083390468627,
+            "ae_capped_loaded_ci95": [
+              0.7875259585184331,
+              1.999436242030378
+            ]
+          }
+        },
+        {
+          "segment": "Bourgogne",
+          "policies": 2009,
+          "exposure_years": 934.4,
+          "reliable": true,
+          "claims_actual_full_eur_per_year": 98.26573356196963,
+          "glm": {
+            "mean_premium": 180.34608783964612,
+            "premium_index_vs_portfolio": 1.094258057765813,
+            "ae_full": 0.5448731089156874,
+            "ae_capped_loaded": 0.7130177495035089,
+            "ae_capped_loaded_ci95": [
+              0.5188128600999824,
+              0.9353219542217902
+            ]
+          },
+          "gbm": {
+            "mean_premium": 158.0397679576625,
+            "premium_index_vs_portfolio": 0.9604947558729053,
+            "ae_full": 0.6217785234175627,
+            "ae_capped_loaded": 0.8136557231445364,
+            "ae_capped_loaded_ci95": [
+              0.5877073348588823,
+              1.0614860033353295
+            ]
+          }
+        },
+        {
+          "segment": "Bretagne",
+          "policies": 8342,
+          "exposure_years": 5514.6,
+          "reliable": true,
+          "claims_actual_full_eur_per_year": 101.2772298198984,
+          "glm": {
+            "mean_premium": 154.41371314897538,
+            "premium_index_vs_portfolio": 0.9369121995761985,
+            "ae_full": 0.6558823549705594,
+            "ae_capped_loaded": 0.814468357506835,
+            "ae_capped_loaded_ci95": [
+              0.6663631497600697,
+              1.022949112363213
+            ]
+          },
+          "gbm": {
+            "mean_premium": 151.98556363083443,
+            "premium_index_vs_portfolio": 0.9237000200791955,
+            "ae_full": 0.6663608529682192,
+            "ae_capped_loaded": 0.8274804548572444,
+            "ae_capped_loaded_ci95": [
+              0.6776585900580911,
+              1.0386965608269156
+            ]
+          }
+        },
+        {
+          "segment": "Centre",
+          "policies": 32129,
+          "exposure_years": 20541.7,
+          "reliable": true,
+          "claims_actual_full_eur_per_year": 204.10081576354176,
+          "glm": {
+            "mean_premium": 136.24574665148785,
+            "premium_index_vs_portfolio": 0.8266772398316231,
+            "ae_full": 1.4980344031261759,
+            "ae_capped_loaded": 1.0289259556663526,
+            "ae_capped_loaded_ci95": [
+              0.9136207572765477,
+              1.174180038200088
+            ]
+          },
+          "gbm": {
+            "mean_premium": 134.6362853307597,
+            "premium_index_vs_portfolio": 0.8182588957296236,
+            "ae_full": 1.5159421196308944,
+            "ae_capped_loaded": 1.0412258830111236,
+            "ae_capped_loaded_ci95": [
+              0.9250634822335966,
+              1.1870225298397419
+            ]
+          }
+        },
+        {
+          "segment": "Champagne-Ardenne",
+          "policies": 612,
+          "exposure_years": 247.2,
+          "reliable": false,
+          "claims_actual_full_eur_per_year": 1634.6302816846696,
+          "glm": {
+            "mean_premium": 103.94623945611988,
+            "premium_index_vs_portfolio": 0.6306985167343846,
+            "ae_full": 15.725727936263787,
+            "ae_capped_loaded": 3.560158794087283,
+            "ae_capped_loaded_ci95": [
+              0.5894140932582151,
+              8.756541001758412
+            ]
+          },
+          "gbm": {
+            "mean_premium": 149.64316770318956,
+            "premium_index_vs_portfolio": 0.909463989276596,
+            "ae_full": 10.923520978431068,
+            "ae_capped_loaded": 2.472983726500732,
+            "ae_capped_loaded_ci95": [
+              0.4034848273300403,
+              6.101308802455664
+            ]
+          }
+        },
+        {
+          "segment": "Corse",
+          "policies": 908,
+          "exposure_years": 349.9,
+          "reliable": false,
+          "claims_actual_full_eur_per_year": 98.25129679315336,
+          "glm": {
+            "mean_premium": 243.29626631954483,
+            "premium_index_vs_portfolio": 1.476211117377912,
+            "ae_full": 0.4038339686812551,
+            "ae_capped_loaded": 0.5284547591184834,
+            "ae_capped_loaded_ci95": [
+              0.13290851108359056,
+              1.1092873491482875
+            ]
+          },
+          "gbm": {
+            "mean_premium": 169.65418257878198,
+            "premium_index_vs_portfolio": 1.031081953514877,
+            "ae_full": 0.5791268762120179,
+            "ae_capped_loaded": 0.7578420281658376,
+            "ae_capped_loaded_ci95": [
+              0.19016653611274015,
+              1.582649924851037
+            ]
+          }
+        },
+        {
+          "segment": "Franche-Comte",
+          "policies": 278,
+          "exposure_years": 116.6,
+          "reliable": false,
+          "claims_actual_full_eur_per_year": 139.06774747857656,
+          "glm": {
+            "mean_premium": 169.68193987253537,
+            "premium_index_vs_portfolio": 1.0295528568823118,
+            "ae_full": 0.8195789580378672,
+            "ae_capped_loaded": 1.0724962099221809,
+            "ae_capped_loaded_ci95": [
+              0.3755500057179155,
+              1.9338776510342421
+            ]
+          },
+          "gbm": {
+            "mean_premium": 135.6713259072244,
+            "premium_index_vs_portfolio": 0.82454940765999,
+            "ae_full": 1.0250341886809207,
+            "ae_capped_loaded": 1.3413537178075672,
+            "ae_capped_loaded_ci95": [
+              0.46963532346962866,
+              2.4428027105651147
+            ]
+          }
+        },
+        {
+          "segment": "Haute-Normandie",
+          "policies": 1758,
+          "exposure_years": 625.2,
+          "reliable": true,
+          "claims_actual_full_eur_per_year": 75.5419129220946,
+          "glm": {
+            "mean_premium": 146.55138235017338,
+            "premium_index_vs_portfolio": 0.889207151285608,
+            "ae_full": 0.5154636668086348,
+            "ae_capped_loaded": 0.6745327263261779,
+            "ae_capped_loaded_ci95": [
+              0.4365055750172636,
+              0.9925116489633338
+            ]
+          },
+          "gbm": {
+            "mean_premium": 168.82283235550878,
+            "premium_index_vs_portfolio": 1.0260293801020788,
+            "ae_full": 0.44746265577998184,
+            "ae_capped_loaded": 0.5855470027618388,
+            "ae_capped_loaded_ci95": [
+              0.38003008705587826,
+              0.863282761067444
+            ]
+          }
+        },
+        {
+          "segment": "Ile-de-France",
+          "policies": 13979,
+          "exposure_years": 6006.6,
+          "reliable": true,
+          "claims_actual_full_eur_per_year": 133.63944134669717,
+          "glm": {
+            "mean_premium": 178.46689575803262,
+            "premium_index_vs_portfolio": 1.082855974681961,
+            "ae_full": 0.7488192181472524,
+            "ae_capped_loaded": 0.9690694982306859,
+            "ae_capped_loaded_ci95": [
+              0.8118793834914396,
+              1.1500678480130302
+            ]
+          },
+          "gbm": {
+            "mean_premium": 190.31908694849471,
+            "premium_index_vs_portfolio": 1.1566739645272028,
+            "ae_full": 0.7021862257192495,
+            "ae_capped_loaded": 0.9087203385429686,
+            "ae_capped_loaded_ci95": [
+              0.7620448850696817,
+              1.0770405689809348
+            ]
+          }
+        },
+        {
+          "segment": "Languedoc-Roussillon",
+          "policies": 7022,
+          "exposure_years": 2924.0,
+          "reliable": true,
+          "claims_actual_full_eur_per_year": 122.18743703176438,
+          "glm": {
+            "mean_premium": 167.81273336335252,
+            "premium_index_vs_portfolio": 1.018211361711536,
+            "ae_full": 0.7281177928685599,
+            "ae_capped_loaded": 0.952810666464615,
+            "ae_capped_loaded_ci95": [
+              0.7259489611364415,
+              1.2383784518696983
+            ]
+          },
+          "gbm": {
+            "mean_premium": 163.54193835286551,
+            "premium_index_vs_portfolio": 0.9939344772721889,
+            "ae_full": 0.7471321317479265,
+            "ae_capped_loaded": 0.97769271862359,
+            "ae_capped_loaded_ci95": [
+              0.7409813435576935,
+              1.2732002977905894
+            ]
+          }
+        },
+        {
+          "segment": "Limousin",
+          "policies": 888,
+          "exposure_years": 461.8,
+          "reliable": false,
+          "claims_actual_full_eur_per_year": 90.20250801033282,
+          "glm": {
+            "mean_premium": 165.54025365576746,
+            "premium_index_vs_portfolio": 1.0044229881409084,
+            "ae_full": 0.5448977274005171,
+            "ae_capped_loaded": 0.7130499651081367,
+            "ae_capped_loaded_ci95": [
+              0.44897824119365304,
+              1.0172423148058178
+            ]
+          },
+          "gbm": {
+            "mean_premium": 168.06212160477557,
+            "premium_index_vs_portfolio": 1.021406121688974,
+            "ae_full": 0.5367212263478273,
+            "ae_capped_loaded": 0.7023502438629392,
+            "ae_capped_loaded_ci95": [
+              0.4397752614405153,
+              1.0234699016953908
+            ]
+          }
+        },
+        {
+          "segment": "Lorraine",
+          "policies": 2531,
+          "exposure_years": 1621.5,
+          "reliable": true,
+          "claims_actual_full_eur_per_year": 100.94471555768662,
+          "glm": {
+            "mean_premium": 134.82541999161188,
+            "premium_index_vs_portfolio": 0.8180593434810752,
+            "ae_full": 0.7487068504141643,
+            "ae_capped_loaded": 0.9797533862196389,
+            "ae_capped_loaded_ci95": [
+              0.5986238591600954,
+              1.3971432728510853
+            ]
+          },
+          "gbm": {
+            "mean_premium": 132.05862235983778,
+            "premium_index_vs_portfolio": 0.8025930174638346,
+            "ae_full": 0.7643932198734367,
+            "ae_capped_loaded": 1.0002804771454303,
+            "ae_capped_loaded_ci95": [
+              0.6183942500230709,
+              1.4356353550951781
+            ]
+          }
+        },
+        {
+          "segment": "Midi-Pyrenees",
+          "policies": 3512,
+          "exposure_years": 1423.3,
+          "reliable": true,
+          "claims_actual_full_eur_per_year": 91.59214914176174,
+          "glm": {
+            "mean_premium": 98.05993292701308,
+            "premium_index_vs_portfolio": 0.5949830852153947,
+            "ae_full": 0.9340425432468389,
+            "ae_capped_loaded": 1.222282585117351,
+            "ae_capped_loaded_ci95": [
+              0.902957304891716,
+              1.6342613051558974
+            ]
+          },
+          "gbm": {
+            "mean_premium": 117.51674735640246,
+            "premium_index_vs_portfolio": 0.7142140299351978,
+            "ae_full": 0.7793965643380418,
+            "ae_capped_loaded": 1.0199137655755892,
+            "ae_capped_loaded_ci95": [
+              0.7667933319958965,
+              1.3613578641853035
+            ]
+          }
+        },
+        {
+          "segment": "Nord-Pas-de-Calais",
+          "policies": 5562,
+          "exposure_years": 2306.5,
+          "reliable": true,
+          "claims_actual_full_eur_per_year": 102.87568339178924,
+          "glm": {
+            "mean_premium": 190.82376702986744,
+            "premium_index_vs_portfolio": 1.1578318508983767,
+            "ae_full": 0.5391135758036225,
+            "ae_capped_loaded": 0.7054808583070837,
+            "ae_capped_loaded_ci95": [
+              0.5592011671512767,
+              0.8599195241843178
+            ]
+          },
+          "gbm": {
+            "mean_premium": 187.44646543836802,
+            "premium_index_vs_portfolio": 1.13921546068516,
+            "ae_full": 0.5488270112279847,
+            "ae_capped_loaded": 0.7181918028424252,
+            "ae_capped_loaded_ci95": [
+              0.5743877810896724,
+              0.8726812086540542
+            ]
+          }
+        },
+        {
+          "segment": "Pays-de-la-Loire",
+          "policies": 7849,
+          "exposure_years": 4422.2,
+          "reliable": true,
+          "claims_actual_full_eur_per_year": 107.25655772860395,
+          "glm": {
+            "mean_premium": 153.02589565809762,
+            "premium_index_vs_portfolio": 0.9284915540812345,
+            "ae_full": 0.7009046231511359,
+            "ae_capped_loaded": 0.9171996724344865,
+            "ae_capped_loaded_ci95": [
+              0.7253213118039225,
+              1.1297585787645879
+            ]
+          },
+          "gbm": {
+            "mean_premium": 156.72464566730326,
+            "premium_index_vs_portfolio": 0.9525020330313988,
+            "ae_full": 0.6843630577177332,
+            "ae_capped_loaded": 0.8955534770807443,
+            "ae_capped_loaded_ci95": [
+              0.7139052462985096,
+              1.1021608262052753
+            ]
+          }
+        },
+        {
+          "segment": "Picardie",
+          "policies": 1600,
+          "exposure_years": 704.5,
+          "reliable": true,
+          "claims_actual_full_eur_per_year": 142.65208620933046,
+          "glm": {
+            "mean_premium": 184.07483888546128,
+            "premium_index_vs_portfolio": 1.11688242365122,
+            "ae_full": 0.7749678721603788,
+            "ae_capped_loaded": 1.0141184050079801,
+            "ae_capped_loaded_ci95": [
+              0.6692520970298497,
+              1.4327616491727644
+            ]
+          },
+          "gbm": {
+            "mean_premium": 184.32674616799304,
+            "premium_index_vs_portfolio": 1.120255207593713,
+            "ae_full": 0.773908774363755,
+            "ae_capped_loaded": 1.012732475852923,
+            "ae_capped_loaded_ci95": [
+              0.6853912031662664,
+              1.4134556065137525
+            ]
+          }
+        },
+        {
+          "segment": "Poitou-Charentes",
+          "policies": 3800,
+          "exposure_years": 2228.5,
+          "reliable": true,
+          "claims_actual_full_eur_per_year": 116.72970062837112,
+          "glm": {
+            "mean_premium": 145.44622470163486,
+            "premium_index_vs_portfolio": 0.8825015571887177,
+            "ae_full": 0.8025626025551905,
+            "ae_capped_loaded": 1.050228707099084,
+            "ae_capped_loaded_ci95": [
+              0.7817392678097774,
+              1.3585148348407188
+            ]
+          },
+          "gbm": {
+            "mean_premium": 151.58385769077935,
+            "premium_index_vs_portfolio": 0.9212586317260484,
+            "ae_full": 0.7700668290583532,
+            "ae_capped_loaded": 1.0077049287955449,
+            "ae_capped_loaded_ci95": [
+              0.7493726690489291,
+              1.2936888627562986
+            ]
+          }
+        },
+        {
+          "segment": "Provence-Alpes-Cotes-D'Azur",
+          "policies": 15810,
+          "exposure_years": 7124.2,
+          "reliable": true,
+          "claims_actual_full_eur_per_year": 192.97062731861163,
+          "glm": {
+            "mean_premium": 220.38386512142233,
+            "premium_index_vs_portfolio": 1.3371890851611594,
+            "ae_full": 0.8756114119892255,
+            "ae_capped_loaded": 0.9914507129284025,
+            "ae_capped_loaded_ci95": [
+              0.8527366529662198,
+              1.1725220592677474
+            ]
+          },
+          "gbm": {
+            "mean_premium": 211.05641391324252,
+            "premium_index_vs_portfolio": 1.2827061275571938,
+            "ae_full": 0.9143082825141466,
+            "ae_capped_loaded": 1.0352669987199166,
+            "ae_capped_loaded_ci95": [
+              0.8876815171519432,
+              1.2251395916592709
+            ]
+          }
+        },
+        {
+          "segment": "Rhone-Alpes",
+          "policies": 16969,
+          "exposure_years": 9183.5,
+          "reliable": true,
+          "claims_actual_full_eur_per_year": 279.89167064917604,
+          "glm": {
+            "mean_premium": 206.43634332894266,
+            "premium_index_vs_portfolio": 1.2525618648531953,
+            "ae_full": 1.3558255592775503,
+            "ae_capped_loaded": 0.910142024206426,
+            "ae_capped_loaded_ci95": [
+              0.7848660127999983,
+              1.0666007492280043
+            ]
+          },
+          "gbm": {
+            "mean_premium": 202.5988879702251,
+            "premium_index_vs_portfolio": 1.2313050819792004,
+            "ae_full": 1.3815064507674408,
+            "ae_capped_loaded": 0.92738115825586,
+            "ae_capped_loaded_ci95": [
+              0.7989977696169805,
+              1.0854640749176172
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

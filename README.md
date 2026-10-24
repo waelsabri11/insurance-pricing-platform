@@ -239,6 +239,12 @@ price sensitivities. `offer.simulated` is always `true`.
 - Segment-level multipliers only; a per-policy optimizer would be easy to add (the demand model
   is per policy) but would raise the fairness question above.
 
+## Governance
+
+- [Model card](docs/MODEL_CARD.md): intended use, GLM and GBM details, measured performance, explainability, regulatory notes (gender ban, proxies, GDPR, EU AI Act), a segment proxy check, limits, monitoring ideas, and the price-optimization risks (the demand model is simulated).
+- [Data card](docs/DATA_CARD.md): source and licence, size, fields, known gaps and biases, privacy.
+- Segment proxy check (premium dispersion and actual vs expected by driver age, Area and Region on the test set): `scripts/segment_fairness.py` writes [`docs/results/segment_fairness.json`](docs/results/segment_fairness.json). It is a proxy check, not a fairness audit.
+
 ## Architecture
 
 ```mermaid
